@@ -23,15 +23,16 @@ public class BounceEngine implements Runnable {
 
         @Override
         public void run() {
-
+            //start from center
             int width = getParent().getWidth()/2;
             int height = getParent().getHeight()/2;
             //System.out.println(width+ " "+ height);
             // Randomize the starting position...
             for (Ball ball : getParent().getBalls()) {
-                int x = random(width);
-                int y = random(height);
-
+                //int x = random(width);
+                //int y = random(height);
+                int x=width;
+                int y= height;
                 Dimension size = ball.getSize();
 
                 if (x + size.width > width) {

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Implements balls
  */
 package CSconnect;
 
@@ -56,7 +54,20 @@ public class Ball {
         public void setSpeed(Point speed) {
             this.speed = speed;
         }
-
+        public void incrementSpeed(int k){
+            if(speed.x>0){
+                speed.x=speed.x+k;
+            }
+            else{
+                speed.x=speed.x-k;
+            }
+            if(speed.y>0){
+                speed.y=speed.y+k;
+            }
+            else{
+                speed.y=speed.y-k;
+            }
+        }
         protected void paint(Graphics2D g2d) {
 
             Point p = getLocation();

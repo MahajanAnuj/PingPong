@@ -41,14 +41,22 @@ public class SimpleBalls {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 //Panel for display
-                Sprites ballsnpaddles = new Sprites(1);
+                Sprites ballsnpaddles = new Sprites(3);
                 frame.add(ballsnpaddles);
                 frame.setSize(400, 400);
                 frame.setVisible(true);
                 System.out.println("Width = "+ ballsnpaddles.getWidth()+" Height = "+ballsnpaddles.getHeight());
                 //start the display thread
                 new Thread(new BounceEngine(ballsnpaddles)).start();
-
+                while (true) {
+                    try {
+                        ballsnpaddles.repaint();
+                        ballsnpaddles.movePaddles();
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SimpleBalls.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+		}
             }
         });
     }
