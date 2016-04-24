@@ -53,6 +53,9 @@ public class AI implements Runnable{
                 }
             }
             }
+        if(dist<parent.racquets.get(playerID).WIDTH/2){
+            return 0;
+        }
         return dir;
     }
 }

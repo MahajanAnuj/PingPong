@@ -16,7 +16,7 @@ public class BounceEngine implements Runnable {
 
         public int mode;//0 for normal; 1 for realistic; 2 psychedelic;
         private Sprites parent;
-
+        public int ScoreMultiplier=1;
         public static int random(int maxRange) {
         return (int) Math.round((Math.random() * maxRange));
         }
@@ -24,11 +24,12 @@ public class BounceEngine implements Runnable {
         public BounceEngine(Sprites parent) {
             this.parent = parent;
             mode=0;
+            ScoreMultiplier=1;
         }
 
         @Override
         public void run() {
-            /*
+        /*
             ->x
         |y
         v  _ _ _ 1 _ _ _ 
@@ -122,8 +123,20 @@ public class BounceEngine implements Runnable {
         }
 
         public void move(Ball ball) {
+        /*
+            ->x
+        |y
+        v  _ _ _ 1 _ _ _ 
+         |       _      |
+         |              |
+        2||            ||3
+         |       _      |
+         |_ _ _ _ _ _ _ |
+                0
+        */
             //this changes for each of the cases due to multiple raquets
             //change lives and stuff
+            int numr=parent.numracquets;
             int colpad=ball.collision();
             Point p = ball.getLocation();
             Point speed = ball.getSpeed();
@@ -135,15 +148,29 @@ public class BounceEngine implements Runnable {
             int x = p.x;
             int y = p.y;
             //speed reversal on colliding walls
-            if (x + vx < 0 || x + size.width + vx > getParent().getWidth()) {
+            if (x + vx < 0) {//player 2 fault
                 vx *= -1;
+                if(numr>2){
+                    parent.racquets.get(2).decrementLife();
+                }
             }
-            else if (y + vy < 0 ){
+            else if (x + size.width + vx > getParent().getWidth()) {//player 3 fault
+                vx *= -1;
+                if(numr>3){
+                    parent.racquets.get(3).decrementLife();
+                }
+            }
+            else if (y + vy < 0 ){//player 1 fault
                 vy *= -1;
+                if(numr>1){
+                    parent.racquets.get(1).decrementLife();
+                }
             }
-            else if(y + size.height + vy > getParent().getHeight()){
-            //lost life for player 0
-                parent.gameOver();
+            else if(y + size.height + vy > getParent().getHeight()){//player 0 fault
+                vy *= -1;
+                if(numr>0){
+                    parent.racquets.get(0).decrementLife();
+                }
             }
             //increase speed on collision for increasing game difficulty
             else if(colpad>-1){//collision
@@ -165,6 +192,13 @@ public class BounceEngine implements Runnable {
                 }
                 collided=true;
             }
+            Boolean allover=true;
+            for(Racquet racquet:parent.racquets){
+                allover=allover && racquet.isDead();
+            }
+            if(allover){
+                parent.gameOver();
+            }
             //lets play with the physics here
             //probailistic accelaration
             if (mode==2){
@@ -179,7 +213,7 @@ public class BounceEngine implements Runnable {
             ball.setSpeed(new Point(vx, vy));
             if (collided){
                 ball.incrementSpeed(1);
-                parent.paddlespeed+=1;
+                parent.paddlespeed+=2;
                 parent.racquets.get(colpad).incrementScore(parent.paddlespeed);
             }
             ball.setLocation(new Point(x, y));

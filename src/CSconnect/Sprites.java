@@ -41,7 +41,7 @@ import javax.swing.JPanel;
             //this.bengine=bengine;
             paddlespeed=10;
             for(int i=0;i<numracquets;i++){
-                racquets.add(new Racquet(this, i));
+                racquets.add(new Racquet(this, i,60,10));
             }
             for (int index = 0; index < numballs; index++) {
                 ballsUp.add(new Ball(new Color(random(255), random(255), random(255)),this));
@@ -74,7 +74,9 @@ import javax.swing.JPanel;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
            
             for(Racquet racquet:racquets){
-            racquet.paint(g2d);
+                //racquet.paint(g2d);
+                if(!racquet.isDead()){
+                    racquet.paint(g2d);}
             }
             for (Ball ball : ballsUp) {
                 ball.paint(g2d);
@@ -89,9 +91,14 @@ import javax.swing.JPanel;
             return racquets;
         }
         public void gameOver() {
-		JOptionPane.showMessageDialog(this, "Your Score is "+racquets.get(r2c).getScore(),
-				"Game Over", JOptionPane.YES_NO_OPTION);
-		System.exit(ABORT);
+            String res="";
+            int pn=0;
+            for(Racquet racquet:racquets){
+                res+="Player: "+pn+" Score: "+ racquet.getScore()+"\n";
+                pn++;
+            }
+            JOptionPane.showMessageDialog(this, res,"Game Over", JOptionPane.YES_NO_OPTION);
+            System.exit(ABORT);
 	}
 
     }

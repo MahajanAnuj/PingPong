@@ -19,18 +19,20 @@ import java.awt.event.KeyEvent;
 
 public class Racquet {
         private int score;
-        public int numLife;
+        public int numLife=3;
         public int playerID;//0 and 1 will move in X axis and 2,3 will move in Y
 	public int Y;//fixed coordinate correspondin pen drawing
-	public static final int WIDTH = 60;
-	public static final int HEIGHT = 10;
+	public int WIDTH = 60;
+	public int HEIGHT = 10;
         public Color color;
 	int x;///moving coordinate
 	int xa = 0;
 	public Sprites parent;
 
-	public Racquet(Sprites parent,  int playerID) {
+	public Racquet(Sprites parent,  int playerID, int WIDTH, int HEIGHT) {
 		this.parent = parent;
+                this.WIDTH=WIDTH;
+                this.HEIGHT=HEIGHT;
                 //change for multiplayer
                 x=parent.getWidth()/2-WIDTH/2;
                 this.playerID=playerID;
@@ -50,13 +52,14 @@ public class Racquet {
                 0
         */              
         public  void decrementLife(){
-            numLife--;
+            if(numLife>0){
+                numLife--;}
         }
         public void incrementLife(){
             numLife++;
         }
         public Boolean isDead(){
-            return numLife>0;
+            return numLife<1;
         }
         public void align(){
             if(playerID==0){
