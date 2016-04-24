@@ -19,7 +19,7 @@ public class Racquet {
 	private static final int WIDTH = 60;
 	private static final int HEIGHT = 10;
         private int speed;
-	int x = 0;
+	int x;
 	int xa = 0;
 	private Sprites parent;
 

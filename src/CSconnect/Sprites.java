@@ -21,15 +21,18 @@ import javax.swing.JPanel;
  */
  public class Sprites extends JPanel {
         private List<Ball> ballsUp;
-        private Racquet racquet;
+        public Racquet racquet;
         public int numballs;
-        public int paddlespeed=1;
+        public int paddlespeed=5;
+        BounceEngine bengine;
         public static int random(int maxRange) {
         return (int) Math.round((Math.random() * maxRange));
         }
         public Sprites(int numballs) {
             ballsUp = new ArrayList<Ball>(25);
             this.numballs=numballs;
+            //this.bengine=bengine;
+            paddlespeed=5;
             racquet=new Racquet(this);
             for (int index = 0; index < numballs; index++) {
                 ballsUp.add(new Ball(new Color(random(255), random(255), random(255)),this));
@@ -41,12 +44,14 @@ import javax.swing.JPanel;
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				racquet.keyReleased(e);
+				bengine.keyReleased(e);
+                                System.out.println("Key Released"+ e.getKeyChar());
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				racquet.keyPressed(e);
+				bengine.keyPressed(e);
+                                System.out.println("Key Pressed"+ e.getKeyChar());
 			}
 		});
 		setFocusable(true);
@@ -54,15 +59,15 @@ import javax.swing.JPanel;
         
 
         @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        public void paint(Graphics g) {
+            super.paint(g);
             Graphics2D g2d = (Graphics2D) g.create();
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             racquet.paint(g2d);
             for (Ball ball : ballsUp) {
                 ball.paint(g2d);
             }
-            g2d.dispose();
+            //g2d.dispose();
         }
 
         public List<Ball> getBalls() {

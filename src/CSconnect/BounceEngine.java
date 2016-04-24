@@ -7,6 +7,7 @@ package CSconnect;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import javax.swing.SwingUtilities;
 
 public class BounceEngine implements Runnable {
@@ -45,6 +46,7 @@ public class BounceEngine implements Runnable {
                 ball.setLocation(new Point(x, y));
 
             }
+            parent.racquet.x=width; 
 
             while (getParent().isVisible()) {
 
@@ -64,13 +66,25 @@ public class BounceEngine implements Runnable {
 
                 // Some small delay...
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException ex) {
                 }
 
             }
 
         }
+        public void keyReleased(KeyEvent e) {
+		parent.racquet.xa = 0;
+	}
+
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_LEFT)
+			parent.racquet.xa = -parent.paddlespeed;
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+			parent.racquet.xa = parent.paddlespeed;
+                parent.racquet.move();
+	}
+
 
         public Sprites getParent() {
             return parent;

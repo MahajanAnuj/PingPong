@@ -47,7 +47,10 @@ public class SimpleBalls {
                 frame.setVisible(true);
                 System.out.println("Width = "+ ballsnpaddles.getWidth()+" Height = "+ballsnpaddles.getHeight());
                 //start the display thread
-                new Thread(new BounceEngine(ballsnpaddles)).start();
+                BounceEngine bengine=new BounceEngine(ballsnpaddles);
+                ballsnpaddles.bengine=bengine;
+                new Thread(bengine).start();
+                /*
                 while (true) {
                     try {
                         ballsnpaddles.repaint();
@@ -56,7 +59,7 @@ public class SimpleBalls {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(SimpleBalls.class.getName()).log(Level.SEVERE, null, ex);
                     }
-		}
+		}*/
             }
         });
     }
