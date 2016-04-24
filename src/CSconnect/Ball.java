@@ -75,8 +75,15 @@ public class Ball {
 		return new Rectangle(location.x, location.y,size.width,size.height);
 	}
         
-        public boolean collision() {
-		return parent.racquet.getBounds().intersects(getBounds());
+        public int collision() {
+            int result=-1;
+            for(Racquet racquet:parent.racquets){
+                if(racquet.getBounds().intersects(getBounds()))
+                    {
+                        return racquet.playerID;
+                    }
+                }
+            return result;
 	}
         protected void paint(Graphics2D g2d) {
 

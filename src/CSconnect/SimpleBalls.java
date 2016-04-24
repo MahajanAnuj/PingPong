@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package CSconnect;
 
 import java.awt.BorderLayout;
@@ -41,7 +36,7 @@ public class SimpleBalls {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 //Panel for display
-                Sprites ballsnpaddles = new Sprites(1);
+                Sprites ballsnpaddles = new Sprites(1,4,0);
                 frame.add(ballsnpaddles);
                 frame.setSize(400, 400);
                 frame.setVisible(true);
@@ -50,16 +45,6 @@ public class SimpleBalls {
                 BounceEngine bengine=new BounceEngine(ballsnpaddles);
                 ballsnpaddles.bengine=bengine;
                 new Thread(bengine).start();
-                /*
-                while (true) {
-                    try {
-                        ballsnpaddles.repaint();
-                        ballsnpaddles.movePaddles();
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SimpleBalls.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-		}*/
             }
         });
     }

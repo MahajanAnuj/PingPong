@@ -22,19 +22,27 @@ import javax.swing.JPanel;
  */
  public class Sprites extends JPanel {
         private List<Ball> ballsUp;
-        public Racquet racquet;
+        //add racquet list here base on num player parameter
+        public ArrayList <Racquet> racquets;
         public int numballs;
+        public int numracquets;
+        public int r2c;//racquet to control
         public int paddlespeed=5;
         BounceEngine bengine;
         public static int random(int maxRange) {
         return (int) Math.round((Math.random() * maxRange));
         }
-        public Sprites(int numballs) {
+        public Sprites(int numballs,int numracquets,int r2c) {
             ballsUp = new ArrayList<Ball>(25);
+            racquets =new  ArrayList<Racquet>();
             this.numballs=numballs;
+            this.numracquets=numracquets;
+            this.r2c=r2c;
             //this.bengine=bengine;
             paddlespeed=10;
-            racquet=new Racquet(this);
+            for(int i=0;i<numracquets;i++){
+                racquets.add(new Racquet(this, i));
+            }
             for (int index = 0; index < numballs; index++) {
                 ballsUp.add(new Ball(new Color(random(255), random(255), random(255)),this));
             }
@@ -64,7 +72,10 @@ import javax.swing.JPanel;
             super.paint(g);
             Graphics2D g2d = (Graphics2D) g.create();
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+           
+            for(Racquet racquet:racquets){
             racquet.paint(g2d);
+            }
             for (Ball ball : ballsUp) {
                 ball.paint(g2d);
             }
@@ -74,14 +85,11 @@ import javax.swing.JPanel;
         public List<Ball> getBalls() {
             return ballsUp;
         }
-        
-        public void movePaddles() {
-		racquet.move();
-	}
+        public ArrayList<Racquet> getRacquets(){
+            return racquets;
+        }
         public void gameOver() {
-		//Sound.BACK.stop();
-		//Sound.GAMEOVER.play();
-		JOptionPane.showMessageDialog(this, "You lost",
+		JOptionPane.showMessageDialog(this, "Your Score is "+racquets.get(r2c).getScore(),
 				"Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}

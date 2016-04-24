@@ -5,7 +5,12 @@
         <group>
             <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/testThread/tester.java</file>
             <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/learn/CCG.java</file>
+            <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/CSconnect/Sprites.java</file>
+            <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/CSconnect/BounceEngine.java</file>
+            <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/CSconnect/SimpleBalls.java</file>
             <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/testThread/mythread.java</file>
+            <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/CSconnect/Ball.java</file>
+            <file>file:/C:/Users/anuj/Documents/NetBeansProjects/PingPong/src/CSconnect/Racquet.java</file>
         </group>
     </open-files>
 </project-private>

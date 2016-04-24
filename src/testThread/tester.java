@@ -21,6 +21,7 @@ public class tester {
        t1.start();
        t2.start();
        t3.start();
+        System.out.println("I am an idependent thread");
       }
     
 }

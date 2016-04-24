@@ -18,27 +18,36 @@ public class Simpleclient {
     public static void main(String[] args) {
      //String host="10.208.23.105";
        String host="127.0.0.1";
-     int port=55653;
+     int port=62372;
      try{
          System.out.println("Connecting host at host = "+ host+ " port = "+port);
          Socket skt=new  Socket(host, port);
          //BufferedReader myInput= new BufferedReader(new InputStreamReader(skt.getInputStream()));
          //PrintStream myOutput= new PrintStream(skt.getOutputStream());
-         DataInputStream din=new DataInputStream(skt.getInputStream());
-         DataOutputStream dout=new DataOutputStream(skt.getOutputStream());
+         //DataInputStream din=new DataInputStream(skt.getInputStream());
+         //DataOutputStream dout=new DataOutputStream(skt.getOutputStream());
          //myOutput.print("Hello Server");
-         dout.writeUTF("Hello Server");
+         //for (int i=0;i<10;i++){
+         //dout.writeUTF(""+i);
+         //}
+         //handshake protocol
+         //dout.writeUTF("exit");
          //String buf= myInput.readLine();
-         String buf=din.readUTF();
-         if(buf !=null){
-            System.out.println("Server said "+ buf);
-            }
+        // String buf;
+         //while((buf=din.readUTF()) !=null){
+           // System.out.println("Server said "+ buf);
+            //if(buf.equals("exit")){
+             //   skt.close();
+              //  System.out.println("client exiting");
+            //}
+            //}
          skt.close();
-         System.out.println("client exiting");
+         System.out.println("Exited Server");
+         
+         //handle SocketException
      }
      catch(IOException ex){
-         ex.printStackTrace();
+         //ex.printStackTrace();
      }
-    }
-    
+    } 
 }

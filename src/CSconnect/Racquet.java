@@ -9,34 +9,104 @@ package CSconnect;
  * Implements a racquet
  * @author anuj
  */
+import static CSconnect.Sprites.random;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Racquet {
-	public static final int Y = 340;
+        private int score;
+        public int numLife;
+        public int playerID;//0 and 1 will move in X axis and 2,3 will move in Y
+	public int Y;//fixed coordinate correspondin pen drawing
 	public static final int WIDTH = 60;
 	public static final int HEIGHT = 10;
-        //public int speed;
-	int x;
+        public Color color;
+	int x;///moving coordinate
 	int xa = 0;
-	private Sprites parent;
+	public Sprites parent;
 
-	public Racquet(Sprites parent) {
+	public Racquet(Sprites parent,  int playerID) {
 		this.parent = parent;
                 //change for multiplayer
                 x=parent.getWidth()/2-WIDTH/2;
+                this.playerID=playerID;
+                color=new Color(random(255), random(255), random(255));
+                score=0;
+                numLife=3;
 	}
+        /*
+            ->x
+        |y
+        v  _ _ _ 1 _ _ _ 
+         |       _      |
+         |              |
+        2||            ||3
+         |       _      |
+         |_ _ _ _ _ _ _ |
+                0
+        */              
+        public  void decrementLife(){
+            numLife--;
+        }
+        public void incrementLife(){
+            numLife++;
+        }
+        public Boolean isDead(){
+            return numLife>0;
+        }
+        public void align(){
+            if(playerID==0){
+                Y=parent.getHeight()-HEIGHT;
+                x=parent.getWidth()/2-WIDTH/2;
+            }
+            if(playerID==1){
+                Y=0;
+                x=parent.getWidth()/2-WIDTH/2;
+            }
+            if(playerID==2){
+                Y=0;
+                x=parent.getHeight()/2-WIDTH/2;
+            }
+            if(playerID==3){
+                Y=parent.getWidth()-HEIGHT;
+                x=parent.getHeight()/2-WIDTH/2;
+            }
+            
+            System.out.println("Player "+ playerID + " X: " +x+" Y: "+Y);
+        }
 
 	public void move() {
+            //compare the corresponding bounds
+            if(playerID<2){
 		if (x + xa > 0 && x + xa < parent.getWidth() - WIDTH)
-			x = x + xa;
-	}
-
+			x = x + xa;}
+            else{
+                if (x + xa > 0 && x + xa < parent.getHeight()- WIDTH)
+			x = x + xa;}
+            }
+	
+        public Color getColor(){
+            return color;
+        }
 	public void paint(Graphics2D g) {
+            g.setColor(getColor());
+            if(playerID==0){
 		g.fillRect(x, Y, WIDTH, HEIGHT);
-	}
+            }
+            if(playerID==1){
+                g.fillRect(x, Y, WIDTH, HEIGHT);
+            }
+            if(playerID==2){
+                g.fillRect(Y, x, HEIGHT ,WIDTH);
+            }
+            if(playerID==3){
+                g.fillRect(Y, x, HEIGHT ,WIDTH);
+            }              
+        }
 
 	public void keyReleased(KeyEvent e) {
 		xa = 0;
@@ -50,10 +120,33 @@ public class Racquet {
 	}
 
 	public Rectangle getBounds() {
+            if(playerID<2){
 		return new Rectangle(x, Y, WIDTH, HEIGHT);
+            }
+            else{
+                return new Rectangle(Y, x ,HEIGHT, WIDTH);
+            }
 	}
 
 	public int getTopY() {
-		return Y - HEIGHT;
+            if(playerID==0){
+		return Y;
+            }
+            if(playerID==1){
+		return Y+HEIGHT;
+            }
+            if(playerID==2){
+		return Y+HEIGHT;
+            }
+            if(playerID==3){
+		return Y;
+            }
+            return 0;
 	}
+        public int getScore(){
+            return score;
+        }
+        public int incrementScore(int k){
+            return score+=k;
+        }
 }

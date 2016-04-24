@@ -8,6 +8,8 @@ package CSconnect;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class BounceEngine implements Runnable {
@@ -26,6 +28,17 @@ public class BounceEngine implements Runnable {
 
         @Override
         public void run() {
+            /*
+            ->x
+        |y
+        v  _ _ _ 1 _ _ _ 
+         |       _      |
+         |              |
+        2||            ||3
+         |       _      |
+         |_ _ _ _ _ _ _ |
+                0
+        */       
             //start from center
             int width = getParent().getWidth()/2;
             int height = getParent().getHeight()/2;
@@ -46,14 +59,16 @@ public class BounceEngine implements Runnable {
                 }
 
                 ball.setLocation(new Point(x, y));
-
             }
-            parent.racquet.x=width-parent.racquet.WIDTH/2; 
-
+            for(Racquet racquet:parent.racquets){
+                racquet.align();
+            }
+             
+            timedmessage("Game starting in 5 seconds", "Attention Game Starting!",5);
             while (getParent().isVisible()) {
 
                 // Repaint the balls pen...
-                SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         getParent().repaint();
@@ -76,15 +91,15 @@ public class BounceEngine implements Runnable {
 
         }
         public void keyReleased(KeyEvent e) {
-		parent.racquet.xa = 0;
+		parent.racquets.get(parent.r2c).xa = 0;
 	}
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT)
-			parent.racquet.xa = -parent.paddlespeed;
+			parent.racquets.get(parent.r2c).xa = -parent.paddlespeed;
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-			parent.racquet.xa = parent.paddlespeed;
-                parent.racquet.move();
+			parent.racquets.get(parent.r2c).xa = parent.paddlespeed;
+                parent.racquets.get(parent.r2c).move();
 	}
         
 
@@ -93,7 +108,9 @@ public class BounceEngine implements Runnable {
         }
 
         public void move(Ball ball) {
-
+            //this changes for each of the cases due to multiple raquets
+            //change lives and stuff
+            int colpad=ball.collision();
             Point p = ball.getLocation();
             Point speed = ball.getSpeed();
             Dimension size = ball.getSize();
@@ -111,13 +128,27 @@ public class BounceEngine implements Runnable {
                 vy *= -1;
             }
             else if(y + size.height + vy > getParent().getHeight()){
-            //lost life for this player
+            //lost life for player 0
                 parent.gameOver();
             }
             //increase speed on collision for increasing game difficulty
-            else if(ball.collision()){
-                vy *= -1;
-                y = parent.racquet.getTopY() - (int)ball.getSize().getHeight();
+            else if(colpad>-1){//collision
+                if (colpad==0){
+                    vy *= -1;
+                    y = parent.racquets.get(colpad).getTopY() - (int)ball.getSize().getHeight();
+                }
+                if (colpad==1){
+                    vy *= -1;
+                    y = parent.racquets.get(colpad).getTopY();
+                }
+                if (colpad==2){
+                    vx *= -1;
+                    x = parent.racquets.get(colpad).getTopY() ;
+                }
+                if (colpad==3){
+                    vx *= -1;
+                    x = parent.racquets.get(colpad).getTopY() - (int)ball.getSize().getHeight();
+                }
                 collided=true;
             }
             //lets play with the physics here
@@ -133,10 +164,28 @@ public class BounceEngine implements Runnable {
 
             ball.setSpeed(new Point(vx, vy));
             if (collided){
-            ball.incrementSpeed(1);
+                ball.incrementSpeed(1);
+                parent.paddlespeed+=1;
+                parent.racquets.get(colpad).incrementScore(parent.paddlespeed);
             }
             ball.setLocation(new Point(x, y));
 
         }
-    }
+        public void timedmessage(String m1,String m2,int t){
+            JOptionPane opt = new JOptionPane(m1, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{});
+            final JDialog dlg = opt.createDialog(m2);
+            new Thread(new Runnable()
+            {
+                public void run(){
+                    try
+                    {
+                        Thread.sleep(t*1000);
+                        dlg.dispose();
+                    }
+                    catch ( Throwable th )
+                    {}
+                }
+            }).start();
+            dlg.setVisible(true);}
+            }
 
