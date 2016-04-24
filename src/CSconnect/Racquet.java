@@ -15,10 +15,10 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Racquet {
-	private static final int Y = 340;
-	private static final int WIDTH = 60;
-	private static final int HEIGHT = 10;
-        private int speed;
+	public static final int Y = 340;
+	public static final int WIDTH = 60;
+	public static final int HEIGHT = 10;
+        //public int speed;
 	int x;
 	int xa = 0;
 	private Sprites parent;

@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 public class Ball {
         public Sprites parent; 
@@ -22,8 +23,9 @@ public class Ball {
             this.parent=parent;
             setColor(color);
 
-            speed = new Point(10 - random(20), 10 - random(20));
-            size = new Dimension(30, 30);
+            //speed = new Point(10 - random(20), 10 - random(20));
+            speed = new Point(-5+random(4), -5+random(4));
+            size = new Dimension(20, 20);
 
         }
 
@@ -68,6 +70,14 @@ public class Ball {
                 speed.y=speed.y-k;
             }
         }
+        
+        public Rectangle getBounds() {
+		return new Rectangle(location.x, location.y,size.width,size.height);
+	}
+        
+        public boolean collision() {
+		return parent.racquet.getBounds().intersects(getBounds());
+	}
         protected void paint(Graphics2D g2d) {
 
             Point p = getLocation();

@@ -13,6 +13,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -32,7 +33,7 @@ import javax.swing.JPanel;
             ballsUp = new ArrayList<Ball>(25);
             this.numballs=numballs;
             //this.bengine=bengine;
-            paddlespeed=5;
+            paddlespeed=10;
             racquet=new Racquet(this);
             for (int index = 0; index < numballs; index++) {
                 ballsUp.add(new Ball(new Color(random(255), random(255), random(255)),this));
@@ -76,6 +77,13 @@ import javax.swing.JPanel;
         
         public void movePaddles() {
 		racquet.move();
+	}
+        public void gameOver() {
+		//Sound.BACK.stop();
+		//Sound.GAMEOVER.play();
+		JOptionPane.showMessageDialog(this, "You lost",
+				"Game Over", JOptionPane.YES_NO_OPTION);
+		System.exit(ABORT);
 	}
 
     }

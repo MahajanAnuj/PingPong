@@ -41,7 +41,7 @@ public class SimpleBalls {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 //Panel for display
-                Sprites ballsnpaddles = new Sprites(3);
+                Sprites ballsnpaddles = new Sprites(1);
                 frame.add(ballsnpaddles);
                 frame.setSize(400, 400);
                 frame.setVisible(true);
