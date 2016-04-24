@@ -78,6 +78,27 @@ public class Racquet {
             
             System.out.println("Player "+ playerID + " X: " +x+" Y: "+Y);
         }
+        //gives center of paddle top
+        public Point location(){
+            Point loc =new Point();
+            if(playerID==0){
+                loc.x=x+WIDTH/2;
+                loc.y=Y;
+                }
+            if(playerID==1){
+                loc.y=HEIGHT;
+                loc.x=x+WIDTH/2;
+            }
+            if(playerID==2){
+                loc.x=HEIGHT;
+                loc.y=x+WIDTH/2;
+            }
+            if(playerID==3){
+                loc.x=Y;
+                loc.y=x+WIDTH/2;
+            }
+            return loc;
+        }
 
 	public void move() {
             //compare the corresponding bounds

@@ -102,7 +102,21 @@ public class BounceEngine implements Runnable {
                 parent.racquets.get(parent.r2c).move();
 	}
         
-
+        public void externalMove(int dir,int playerNo){
+            if(dir==0){
+                parent.racquets.get(playerNo).xa = 0;
+            }
+            else{
+                if(dir==1){
+                    parent.racquets.get(playerNo).xa = parent.paddlespeed;
+                }
+                else{//-1
+                    parent.racquets.get(playerNo).xa = -parent.paddlespeed;
+                }
+                parent.racquets.get(playerNo).move();
+            }
+        } 
+        
         public Sprites getParent() {
             return parent;
         }

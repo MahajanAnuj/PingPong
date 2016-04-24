@@ -36,7 +36,7 @@ public class SimpleBalls {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 //Panel for display
-                Sprites ballsnpaddles = new Sprites(1,4,0);
+                Sprites ballsnpaddles = new Sprites(1,2,0);
                 frame.add(ballsnpaddles);
                 frame.setSize(400, 400);
                 frame.setVisible(true);
@@ -44,7 +44,9 @@ public class SimpleBalls {
                 //start the display thread
                 BounceEngine bengine=new BounceEngine(ballsnpaddles);
                 ballsnpaddles.bengine=bengine;
+                AI ai1=new AI(1,ballsnpaddles);
                 new Thread(bengine).start();
+                new Thread(ai1).start();
             }
         });
     }

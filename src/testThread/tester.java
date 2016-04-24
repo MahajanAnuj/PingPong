@@ -22,6 +22,10 @@ public class tester {
        t2.start();
        t3.start();
         System.out.println("I am an idependent thread");
+        int z=100;
+        int x=90;
+        System.out.println(""+(int)Math.signum(x-z));
+    
       }
     
 }
