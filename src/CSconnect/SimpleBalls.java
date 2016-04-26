@@ -15,6 +15,10 @@ import javax.swing.UnsupportedLookAndFeelException;
  * 
  */
 public class SimpleBalls {
+    int numBalls;
+    int numPlayers;
+    int playerID;// raquet to control
+    int numAI;
 
     public static void main(String[] args) {
         new SimpleBalls();
@@ -37,19 +41,19 @@ public class SimpleBalls {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 //Panel for display
-                Sprites ballsnpaddles = new Sprites(1,2,0);//balls, players, to control
+                Sprites ballsnpaddles = new Sprites(1,2,0,1);//balls, #players,#player/raquet to control,# num of AI
                 frame.add(ballsnpaddles);
                 frame.setSize(400, 400);
                 frame.setVisible(true);
-                System.out.println("Width = "+ ballsnpaddles.getWidth()+" Height = "+ballsnpaddles.getHeight());
+               // System.out.println("Width = "+ ballsnpaddles.getWidth()+" Height = "+ballsnpaddles.getHeight());
                 //start the display thread
                 BounceEngine bengine=new BounceEngine(ballsnpaddles);
                 ballsnpaddles.bengine=bengine;
-                AI ai1=new AI(1,ballsnpaddles);
-                PowerEngine powerEngine=new PowerEngine(ballsnpaddles);
+                //AI ai1=new AI(1,ballsnpaddles);
+                //PowerEngine powerEngine=new PowerEngine(ballsnpaddles);
                 new Thread(bengine).start();
-                new Thread(ai1).start();
-                new Thread(powerEngine).start();
+                //new Thread(ai1).start();
+                //new Thread(powerEngine).start();
             }
         });
     }

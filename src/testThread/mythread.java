@@ -16,6 +16,7 @@ public class mythread extends Thread{
     public mythread(int interval,int repeats) {
         this.interval=interval;
         this.repeats=repeats;
+        marker();
     }
     @Override
     public void run(){
@@ -29,5 +30,7 @@ public class mythread extends Thread{
             }
     }
     }
-    
+    public void marker(){
+        System.out.println("Hello I am a new thread");
+    }
 }

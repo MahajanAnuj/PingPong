@@ -79,7 +79,7 @@ public class Racquet {
                 x=parent.getHeight()/2-WIDTH/2;
             }
             
-            System.out.println("Player "+ playerID + " X: " +x+" Y: "+Y);
+            //System.out.println("Player "+ playerID + " X: " +x+" Y: "+Y);
         }
         //gives center of paddle top
         public Point location(){
@@ -172,5 +172,8 @@ public class Racquet {
         }
         public int incrementScore(int k){
             return score+=k;
+        }
+        public void setX(int x){
+            this.x=x;
         }
 }

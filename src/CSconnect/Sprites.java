@@ -26,18 +26,22 @@ import javax.swing.JPanel;
         public ArrayList <Racquet> racquets;
         public int numballs;
         public int numracquets;
+        public int numAI;//number of AI players
         public int r2c;//racquet to control
         public int paddlespeed=5;
         BounceEngine bengine;
+        Boolean multiplayer;
         public static int random(int maxRange) {
         return (int) Math.round((Math.random() * maxRange));
         }
-        public Sprites(int numballs,int numracquets,int r2c) {
+        public Sprites(int numballs,int numracquets,int r2c,int numAI) {
             ballsUp = new ArrayList<Ball>(25);
             racquets =new  ArrayList<Racquet>();
             this.numballs=numballs;
             this.numracquets=numracquets;
             this.r2c=r2c;
+            this.numAI=numAI;
+            multiplayer=(numracquets-numAI>1);
             //this.bengine=bengine;
             paddlespeed=10;
             for(int i=0;i<numracquets;i++){
@@ -54,17 +58,19 @@ import javax.swing.JPanel;
 			@Override
 			public void keyReleased(KeyEvent e) {
 				bengine.keyReleased(e);
-                                System.out.println("Key Released"+ e.getKeyChar());
+                                //System.out.println("Key Released"+ e.getKeyChar());
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				bengine.keyPressed(e);
-                                System.out.println("Key Pressed"+ e.getKeyChar());
+                                //System.out.println("Key Pressed"+ e.getKeyChar());
 			}
 		});
 		setFocusable(true);
+                Sound.BACK.loop();
 	}
+        
         
 
         @Override
@@ -81,6 +87,7 @@ import javax.swing.JPanel;
             for (Ball ball : ballsUp) {
                 ball.paint(g2d);
             }
+            //bengine.movestuff();
             //g2d.dispose();
         }
 

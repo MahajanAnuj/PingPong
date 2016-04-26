@@ -26,23 +26,23 @@ public class Simpleserver {
     System.out.println("Server Waiting on host = "+ InetAddress.getLocalHost().getCanonicalHostName()+ " port = "+myServerSocket.getLocalPort());
     Socket skt = myServerSocket.accept();
     System.out.println("Connected to client at" + skt.getLocalAddress());
-        System.out.println("This is client no "+i);
+    System.out.println("This is client no "+i);
     //BufferedReader myInput= new BufferedReader(new InputStreamReader(skt.getInputStream()));
     //PrintStream myOutput= new PrintStream(skt.getOutputStream());
-    //DataInputStream din=new DataInputStream(skt.getInputStream());
-    //DataOutputStream dout=new DataOutputStream(skt.getOutputStream());
+    DataInputStream din=new DataInputStream(skt.getInputStream());
+    DataOutputStream dout=new DataOutputStream(skt.getOutputStream());
     //read
     //String buf= myInput.readLine();
-    //String buf;
+    String buf;
     //System.out.println(buf);
-    //while((buf=din.readUTF()) !=null){
+    while((buf=din.readUTF()) !=null){
      //   System.out.println("Server read "+ buf);
       //  dout.writeUTF("got it");
        // if(buf.equals("exit")){
          //       dout.writeUTF("exit");
           //      System.out.println("Server exiting");
             //   skt.close();
-            //}
+            }
         //myOutput.print("got it");
     skt.close();
         System.out.println("Terminated from client no "+i);

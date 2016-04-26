@@ -12,7 +12,7 @@ import java.awt.Rectangle;
 public class Ball {
         public Sprites parent; 
         private Color color;
-        private Point location;
+        public Point location;
         private Dimension size;
         private Point speed;
         
@@ -24,7 +24,7 @@ public class Ball {
             setColor(color);
 
             //speed = new Point(10 - random(20), 10 - random(20));
-            speed = new Point(-5+random(4), -5+random(4));
+            speed = new Point(-2+random(2), -2+random(2));
             size = new Dimension(20, 20);
 
         }

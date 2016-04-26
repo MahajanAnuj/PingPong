@@ -11,7 +11,8 @@ import java.awt.Point;
  *
  * @author anuj
  */
-public class AI implements Runnable{
+//public class AI implements Runnable{
+public class AI{
     public static final int MAXDISTANCE=10000;
     public int playerID; //to control
     public Sprites parent;
@@ -21,15 +22,15 @@ public class AI implements Runnable{
         this.playerID=playerID;
         mode=0;
     }
-    @Override
+    //@Override
     public void run(){
         while(parent.isVisible()){
-            parent.bengine.externalMove(directionToMove(), playerID);
-             // Some small delay...
+            parent.bengine.externalMove(directionToMove(), playerID); 
+            // Some small delay...
             try {
-                Thread.sleep(50);
+                Thread.sleep(20);
             } catch (InterruptedException ex) {
-            }             
+            }
         }
     }
     public int directionToMove(){

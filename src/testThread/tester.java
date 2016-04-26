@@ -25,6 +25,9 @@ public class tester {
         int z=100;
         int x=90;
         System.out.println(""+(int)Math.signum(x-z));
+        int i=10;
+        for (;i<15;i++){
+            System.out.println(""+i);}
     
       }
     

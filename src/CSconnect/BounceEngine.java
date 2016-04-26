@@ -8,23 +8,38 @@ package CSconnect;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class BounceEngine implements Runnable {
 
+        int numCollisions;
         public int mode;//0 for normal; 1 for realistic; 2 psychedelic;
-        private Sprites parent;
+        public Sprites parent;
         public int ScoreMultiplier=1;
+        Communicator communicator;
+        PowerEngine powerEngine;
+        ArrayList<AI> AIplayers;
+        
         public static int random(int maxRange) {
-        return (int) Math.round((Math.random() * maxRange));
+            return (int) Math.round((Math.random() * maxRange));
         }
         
         public BounceEngine(Sprites parent) {
             this.parent = parent;
             mode=0;
             ScoreMultiplier=1;
+            numCollisions=0;
+            AIplayers=new ArrayList<>();
+            for(int i=0;i<parent.numAI;i++){
+                AIplayers.add(new AI(parent.numracquets-1-i, parent));
+            }
+            if(parent.multiplayer){                
+                communicator=new Communicator(this);
+            }
+            powerEngine=new PowerEngine(parent);
         }
 
         @Override
@@ -67,9 +82,9 @@ public class BounceEngine implements Runnable {
              
             timedmessage("Game starting in 5 seconds", "Attention Game Starting!",5);
             while (getParent().isVisible()) {
-
+                
                 // Repaint the balls pen...
-                    SwingUtilities.invokeLater(new Runnable() {
+                SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         getParent().repaint();
@@ -78,19 +93,28 @@ public class BounceEngine implements Runnable {
 
                 // This is a little dangrous, as it's possible
                 // for a repaint to occur while we're updating...
-                for (Ball ball : getParent().getBalls()) {
-                    move(ball);
+                movestuff();
+                if(!parent.multiplayer){
+                    powerEngine.powerUP();
                 }
-
                 // Some small delay...
                 try {
-                    Thread.sleep(30);
+                    Thread.sleep(20);
                 } catch (InterruptedException ex) {
                 }
 
             }
 
         }
+        public void movestuff(){
+        for (Ball ball : getParent().getBalls()) {
+                move(ball);
+            }
+        for (AI ai:AIplayers){
+            externalMove(ai.directionToMove(), ai.playerID);
+            }
+        }
+        
         public void keyReleased(KeyEvent e) {
 		parent.racquets.get(parent.r2c).xa = 0;
 	}
@@ -174,6 +198,7 @@ public class BounceEngine implements Runnable {
             }
             //increase speed on collision for increasing game difficulty
             else if(colpad>-1){//collision
+                Sound.HIT.play();
                 if (colpad==0){
                     vy *= -1;
                     y = parent.racquets.get(colpad).getTopY() - (int)ball.getSize().getHeight();
@@ -212,10 +237,12 @@ public class BounceEngine implements Runnable {
 
             ball.setSpeed(new Point(vx, vy));
             if (collided){
+                numCollisions++;
                 ball.incrementSpeed(1);
                 parent.paddlespeed+=2;
                 parent.racquets.get(colpad).incrementScore(parent.paddlespeed);
             }
+            
             ball.setLocation(new Point(x, y));
 
         }

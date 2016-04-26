@@ -9,7 +9,8 @@ package CSconnect;
  *
  * @author anuj
  */
-public class PowerEngine implements Runnable {
+//public class PowerEngine implements Runnable {
+public class PowerEngine{
     public Sprites parent;
     
     public PowerEngine(Sprites parent) {
@@ -18,20 +19,20 @@ public class PowerEngine implements Runnable {
     public static int random(int maxRange) {
         return (int) Math.round((Math.random() * maxRange));
     }
-    @Override
+    //@Override
     public void run() {
         while(parent.isVisible()){
             powerUP();
             try {
-                Thread.sleep(400);
+                Thread.sleep(60);
             } catch (InterruptedException ex) {
             }
         }
        }
     //randomly changes game state to make it more fun  :)
     public void powerUP(){
-        if(Math.random()<0.01){
-           int powerToGive=random(3);
+        if(Math.random()<0.001){
+           int powerToGive=random(2);
            switch(powerToGive){
            //increase paddle speed    
            case 0:
@@ -42,12 +43,12 @@ public class PowerEngine implements Runnable {
                parent.bengine.ScoreMultiplier++;
                break;
            //slow down the balls    
-           case 2:
-               int b=random(parent.numballs-1);
-               parent.getBalls().get(b).decrementSpeed(2);
-               break;
+           //case 2:
+           //    int b=random(parent.numballs-1);
+           //    parent.getBalls().get(b).decrementSpeed(2);
+           //    break;
            //enlarge paddle    
-           case 3:
+           case 2:
                int r= random(parent.numracquets-1);
                parent.racquets.get(r).WIDTH=(int)Math.round(parent.racquets.get(r).WIDTH*1.5);
            }
