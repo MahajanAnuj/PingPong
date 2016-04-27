@@ -24,8 +24,11 @@ public class Ball {
             setColor(color);
             location=new Point(x, y);
             //speed = new Point(10 - random(20), 10 - random(20));
-            //speed = new Point(-8+random(6), -8+random(6));
-            speed = new Point(-3, -4);
+            if(!parent.multiplayer){
+                speed = new Point(-4+random(2), -4+random(2));}
+            else{
+                speed = new Point(-3, -4);
+            }
             size = new Dimension(20, 20);
 
         }
