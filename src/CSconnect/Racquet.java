@@ -52,8 +52,8 @@ public class Racquet {
                 0
         */              
         public  void decrementLife(){
-            if(numLife>0){
-                numLife--;}
+            //if(numLife>0){
+             //   numLife--;}
         }
         public void incrementLife(){
             numLife++;

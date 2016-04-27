@@ -42,8 +42,9 @@ public class Communicator {
             i++;
         }
         //p2p
+        System.out.println("Connecting to other servers");
         for(i=0;i<parent.parent.r2c;i++){//replace limit by numplayer-PlayerID 
-            Socket socket=new  Socket("localhost",5555+i);
+            Socket socket=new  Socket("10.237.23.150",5555+i);
             Channel channel=new Channel(socket,i,this);
             connections.add(channel);
             channel.start();

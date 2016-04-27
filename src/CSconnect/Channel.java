@@ -38,33 +38,42 @@ public class Channel extends Thread{
 
     @Override
     public void run() {
-        while(true){
-            try {
+        try {
+            dout.writeUTF("hello");
+        } catch (IOException ex) {
+            Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        while(true){            
+            System.out.println("Channel Started");
+            try {                
                 //write self paddle position
-                String send="Player"+"#"+ID+"#"+"X"+"#"+parent.parent.parent.racquets.get(ID).x+"#"+"Balls";
-                for(Ball ball :parent.parent.parent.getBalls()){
-                    send=send+"#"+ball.getLocation().x+"#"+ball.getLocation().y;
-                }
-                dout.writeUTF(send);
-                //reead position of paddle at othr end
                 String message= din.readUTF();
                 process(message);
+                String send="Player"+"#"+parent.parent.parent.r2c+"#"+"X"+"#"+parent.parent.parent.racquets.get(parent.parent.parent.r2c).x+"#"+"Balls";
+                //for(Ball ball :parent.parent.parent.getBalls()){
+                //    send=send+"#"+ball.getLocation().x+"#"+ball.getLocation().y;
+                //}
+                System.out.println(send+" Sent");
+                dout.writeUTF(send);
+                //reead position of paddle at other end
             } catch (IOException ex) {
                 Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                    Thread.sleep(20);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
                 }
         }
     }
     //can move this elsewhere
     public void process(String message){
-        System.out.println(message);
+        System.out.println(message+" Received");
         String[] tokens =message.split("#");
-        int paddle=Integer.parseInt(tokens[1]);
-        int x=Integer.parseInt(tokens[3]);
-        parent.parent.parent.racquets.get(paddle).setX(x);
+        if (tokens.length>1){
+            int paddle=Integer.parseInt(tokens[1]);
+            int x=Integer.parseInt(tokens[3]);
+            parent.parent.parent.racquets.get(paddle).setX(x);
+        }
         int i=5;
         /*
         for(Ball ball :parent.parent.parent.getBalls()){

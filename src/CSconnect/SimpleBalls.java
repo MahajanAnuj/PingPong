@@ -41,7 +41,7 @@ public class SimpleBalls {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 //Panel for display
-                Sprites ballsnpaddles = new Sprites(1,2,0,1);//balls, #players,#player/raquet to control,# num of AI
+                Sprites ballsnpaddles = new Sprites(1,2,1,0);//balls, #players,#player/raquet to control,# num of AI
                 frame.add(ballsnpaddles);
                 frame.setSize(400, 400);
                 frame.setVisible(true);
