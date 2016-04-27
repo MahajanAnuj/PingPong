@@ -19,10 +19,11 @@ import java.util.logging.Logger;
  */
 public class Channel extends Thread{
     Communicator parent;
+    long numCycles;
     Socket socket;
     DataInputStream din;
     DataOutputStream dout;
-    int ID;//player ID
+    int ID;//connection queue ID caution not player ID
     //implement communication logic here
     public Channel(Socket socket,int ID,Communicator parent) {
         try {
@@ -31,6 +32,7 @@ public class Channel extends Thread{
             this.parent=parent;
             din=new DataInputStream(socket.getInputStream());
             dout=new DataOutputStream(socket.getOutputStream());
+            numCycles=1;
         } catch (IOException ex) {
             Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -44,23 +46,25 @@ public class Channel extends Thread{
             Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
         }
         while(true){            
-            System.out.println("Channel Started");
+            //System.out.println("Channel Started");
             try {                
                 //write self paddle position
                 String message= din.readUTF();
                 process(message);
                 String send="Player"+"#"+parent.parent.parent.r2c+"#"+"X"+"#"+parent.parent.parent.racquets.get(parent.parent.parent.r2c).x+"#"+"Balls";
-                //for(Ball ball :parent.parent.parent.getBalls()){
-                //    send=send+"#"+ball.getLocation().x+"#"+ball.getLocation().y;
-                //}
+                for(Ball ball :parent.parent.parent.getBalls()){
+                    send=send+"#"+ball.getLocation().x+"#"+ball.getLocation().y+"#"+ball.speed.x+"#"+ball.speed.y;
+                }
                 System.out.println(send+" Sent");
                 dout.writeUTF(send);
+                
                 //reead position of paddle at other end
             } catch (IOException ex) {
                 Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
             }
+            //catch(NullPointerException ex){}
             try {
-                    Thread.sleep(10);
+                    Thread.sleep(30);
                 } catch (InterruptedException ex) {
                 }
         }
@@ -69,19 +73,33 @@ public class Channel extends Thread{
     public void process(String message){
         System.out.println(message+" Received");
         String[] tokens =message.split("#");
-        if (tokens.length>1){
+        if (tokens.length>4){
             int paddle=Integer.parseInt(tokens[1]);
             int x=Integer.parseInt(tokens[3]);
+            int i=5;
             parent.parent.parent.racquets.get(paddle).setX(x);
+            //if((paddle==1))
+            {
+                for(Ball ball :parent.parent.parent.getBalls()){
+                    ball.location.x=Integer.parseInt(tokens[i]);
+                    ball.location.y=Integer.parseInt(tokens[i+1]);
+                    ball.speed.x=Integer.parseInt(tokens[i+2]);
+                    ball.speed.y=Integer.parseInt(tokens[i+3]);
+                    i=i+4;
+            }    
+            }
+            numCycles++;
         }
-        int i=5;
-        /*
-        for(Ball ball :parent.parent.parent.getBalls()){
-            ball.location.x=Integer.parseInt(tokens[i]);
-            ball.location.y=Integer.parseInt(tokens[i+1]);
-            i=i+2;
+        if(tokens.length==4){//IP exchange
+            parent.IPs=tokens;
         }
-        */
+    }
+    public void SendIPs(String IPs){
+        try {
+            dout.writeUTF(IPs);
+        } catch (IOException ex) {
+            Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

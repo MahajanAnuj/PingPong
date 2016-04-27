@@ -26,6 +26,8 @@ public class Simpleserver {
     System.out.println("Server Waiting on host = "+ InetAddress.getLocalHost().getCanonicalHostName()+ " port = "+myServerSocket.getLocalPort());
     Socket skt = myServerSocket.accept();
     System.out.println("Connected to client at" + skt.getLocalAddress());
+    System.out.println("Connected to client at" + skt.getInetAddress());
+    System.out.println("Connected to client at" + skt.getRemoteSocketAddress());
     System.out.println("This is client no "+i);
     //BufferedReader myInput= new BufferedReader(new InputStreamReader(skt.getInputStream()));
     //PrintStream myOutput= new PrintStream(skt.getOutputStream());

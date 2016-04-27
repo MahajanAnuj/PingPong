@@ -17,8 +17,8 @@ public class Simpleclient {
      */
     public static void main(String[] args) {
      //String host="10.208.23.105";
-       String host="127.0.0.1";
-     int port=62372;
+       String host="10.237.23.150";
+     int port=5555;
      try{
          System.out.println("Connecting host at host = "+ host+ " port = "+port);
          Socket skt=new  Socket(host, port);
@@ -41,6 +41,7 @@ public class Simpleclient {
               //  System.out.println("client exiting");
             //}
             //}
+         System.out.println(skt.getLocalPort());
          skt.close();
          System.out.println("Exited Server");
          

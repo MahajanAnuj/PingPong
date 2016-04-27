@@ -14,17 +14,18 @@ public class Ball {
         private Color color;
         public Point location;
         private Dimension size;
-        private Point speed;
+        public Point speed;
         
         public static int random(int maxRange) {
         return (int) Math.round((Math.random() * maxRange));
         }
-        public Ball(Color color,Sprites parent) {
+        public Ball(Color color,Sprites parent,int x,int y) {
             this.parent=parent;
             setColor(color);
-
+            location=new Point(x, y);
             //speed = new Point(10 - random(20), 10 - random(20));
-            speed = new Point(-2+random(2), -2+random(2));
+            //speed = new Point(-8+random(6), -8+random(6));
+            speed = new Point(-3, -4);
             size = new Dimension(20, 20);
 
         }

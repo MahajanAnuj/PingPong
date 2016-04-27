@@ -18,6 +18,13 @@ public class tester {
        mythread t1= new mythread(5, 8);
        mythread t2= new mythread(3, 3);
        mythread t3= new mythread(7, 11);
+       String s="/10.237#/11.18#/13.4";
+       s=s.replace("*", "");
+       String[] k;
+       k=s.split("/");
+       
+        System.out.println(s);
+         System.out.println(k[1]);
        t1.start();
        t2.start();
        t3.start();

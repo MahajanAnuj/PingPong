@@ -6,6 +6,7 @@
 package CSconnect;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
@@ -21,7 +22,7 @@ import javax.swing.JPanel;
  * @author anuj
  */
  public class Sprites extends JPanel {
-        private List<Ball> ballsUp;
+        private ArrayList<Ball> ballsUp;
         //add racquet list here base on num player parameter
         public ArrayList <Racquet> racquets;
         public int numballs;
@@ -35,7 +36,7 @@ import javax.swing.JPanel;
         return (int) Math.round((Math.random() * maxRange));
         }
         public Sprites(int numballs,int numracquets,int r2c,int numAI) {
-            ballsUp = new ArrayList<Ball>(25);
+            ballsUp = new ArrayList<Ball>();
             racquets =new  ArrayList<Racquet>();
             this.numballs=numballs;
             this.numracquets=numracquets;
@@ -48,7 +49,7 @@ import javax.swing.JPanel;
                 racquets.add(new Racquet(this, i,60,10));
             }
             for (int index = 0; index < numballs; index++) {
-                ballsUp.add(new Ball(new Color(random(255), random(255), random(255)),this));
+                ballsUp.add(new Ball(new Color(random(255), random(255), random(255)),this,this.getWidth()/2,this.getHeight()/2));
             }
             addKeyListener(new KeyListener() {
 			@Override
@@ -89,9 +90,31 @@ import javax.swing.JPanel;
             }
             //bengine.movestuff();
             //g2d.dispose();
-        }
+            int xc=0,yc=0;
+            g2d.setFont(new Font("Verdana", Font.BOLD, 15));
+            for(Racquet r: racquets){
+                if(r.playerID==0){
+                        xc=20;
+                        yc=this.getHeight()-20;
+                }
+                if(r.playerID==1){
+                        xc=this.getWidth()-80;
+                        yc=20;
+                }
+                if(r.playerID==2){
+                        xc=20;
+                        yc=20;
+                }
+                if(r.playerID==3){
+                        xc=this.getWidth()-80;
+                        yc=this.getHeight()-20;
+                }
+                g2d.setColor(r.getColor());
+                g2d.drawString("S:"+String.valueOf(r.getScore())+" L:"+r.numLife, xc, yc);
+            }
+            }
 
-        public List<Ball> getBalls() {
+        public ArrayList<Ball> getBalls() {
             return ballsUp;
         }
         public ArrayList<Racquet> getRacquets(){
