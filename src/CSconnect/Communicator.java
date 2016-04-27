@@ -58,7 +58,7 @@ public class Communicator {
                 p2pHS=p2pHS+"#"+c.socket.getInetAddress();
             }
             for(Channel c:connections){
-              c.p2pIPString=p2pHS;
+              //c.SendIPs(p2pHS);
             }
         }
         //p2p

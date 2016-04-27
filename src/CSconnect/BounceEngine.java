@@ -238,11 +238,8 @@ public class BounceEngine implements Runnable {
             ball.setSpeed(new Point(vx, vy));
             if (collided){
                 numCollisions++;
-                if(!parent.multiplayer){
-                    ball.incrementSpeed(1);
-                    parent.paddlespeed+=2;
-                }
-                
+                //ball.incrementSpeed(1);
+                //parent.paddlespeed+=2;
                 parent.racquets.get(colpad).incrementScore(parent.paddlespeed);
             }
             

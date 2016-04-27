@@ -23,8 +23,6 @@ public class Channel extends Thread{
     Socket socket;
     DataInputStream din;
     DataOutputStream dout;
-    String p2pIPString;
-    Boolean State;
     int ID;//connection queue ID caution not player ID
     //implement communication logic here
     public Channel(Socket socket,int ID,Communicator parent) {
@@ -35,8 +33,6 @@ public class Channel extends Thread{
             din=new DataInputStream(socket.getInputStream());
             dout=new DataOutputStream(socket.getOutputStream());
             numCycles=1;
-            State=false;
-            p2pIPString="dummy";
         } catch (IOException ex) {
             Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,14 +57,6 @@ public class Channel extends Thread{
                 }
                 System.out.println(send+" Sent");
                 dout.writeUTF(send);
-                if(State){
-                    if(!p2pIPString.equals("dummy"))
-                    {
-                        dout.writeUTF(p2pIPString);
-                        //sent now no need to send again
-                        State=false;
-                    }
-                }
                 
                 //reead position of paddle at other end
             } catch (IOException ex) {
